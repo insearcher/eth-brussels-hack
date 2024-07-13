@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { DynamicWidget } from "../../../lib/dynamic";
+// import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 
 const items = [
   { name: "Autograph", price: 1000 },
@@ -16,6 +17,9 @@ const creators = {
 
 export default function Main() {
   const [creatorPoints, setCreatorPoints] = useState(1000);
+
+  // const { user } = useDynamicContext();
+  // console.log(user)
 
   const { id } = useParams();
   const creatorName = creators[id] || 'Unknown Artist';
