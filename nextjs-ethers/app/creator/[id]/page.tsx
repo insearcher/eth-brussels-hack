@@ -20,7 +20,8 @@ const creators = {
 export default function Main() {
   const isLoggedIn = useIsLoggedIn();
   const [creatorPoints, setCreatorPoints] = useState(0);
-  const [stakeAmount, setStakeAmount] = useState(1000); // New state for stake amount
+  const [stakeAmount, setStakeAmount] = useState(1000);
+  const [balance, setBalance] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
 
   const { primaryWallet } = useDynamicContext();
@@ -93,6 +94,11 @@ const handleStake = () => {
 
         {isMounted && isLoggedIn && (
           <>
+          {/* User balance */}
+          <div className="text-xl font-bold mb-6">
+              Balance: {balance}
+            </div>
+            
             {/* Stake input and button */}
             <div className="flex flex-row items-center mb-6">
               <input
