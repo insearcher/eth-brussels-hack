@@ -1,0 +1,167 @@
+/* General styles */
+
+.container {
+    display: flex;
+    height: 100vh;
+    background-color: #000;
+    color: #000;
+    padding: 0;
+
+
+}
+
+.sidebar {
+    width: 300px;
+    background-color: #1a1a1a;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    z-index: 1;  /* Ensure sidebar is on top */
+}
+
+.sidebarHeader {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.sidebarBalance,
+.sidebarWallet,
+.sidebarArtists {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.sidebarBalance p,
+.sidebarWallet p,
+.sidebarArtists h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #b3b3b3;
+}
+
+.sidebarBalance span {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.sidebarWallet .walletDetails {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.walletDetails img {
+    width: 24px;
+    margin-right: 10px;
+}
+
+.sidebarArtists ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebarArtists li {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #333;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.sidebarArtists li img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.mainContent {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.artistSection {
+    width: 100%;
+    height: 100%;  /* Fill the available space */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.artistSection img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  /* Ensure the image covers the space */
+    z-index: 0;  /* Ensure image is behind other content */
+    position: absolute;  /* Position image absolutely */
+    top: 0;
+    left: 0;
+}
+
+.artistDetails {
+    z-index: 1;  /* Ensure details are on top of the image */
+    background-color: rgba(0, 0, 0, 0.8);  /* Add a background to make the text readable */
+    padding: 20px;
+    width: calc(100% - 40px);  /* Adjust width to fit within padding */
+    margin: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.artistDetails h2 {
+    font-size: 28px;
+    margin: 20px 0;
+    color: #3bb6ff;
+    text-align: center;
+}
+
+.artistDetails table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 18px;
+    color: #fff;
+}
+
+.artistDetails th,
+.artistDetails td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #333;
+}
+
+.artistDetails th {
+    color: #3bb6ff;
+}
+
+.artistDetails button {
+    background-color: #3bb6ff;
+    border: none;
+    padding: 10px 20px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+}
+
+.artistDetails button:hover {
+    background-color: #3399cc;
+}
