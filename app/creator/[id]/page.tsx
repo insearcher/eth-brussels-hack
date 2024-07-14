@@ -44,7 +44,7 @@ export default function Main() {
       chainId: 421614,
     });
 
-    setCreatorPoints(creatorPoints + Math.floor(10000 * amount));
+    setCreatorPoints(creatorPoints + Math.floor(10000000 * amount));
     console.log(tx)
     }
     catch (error) {
