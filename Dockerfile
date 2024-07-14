@@ -8,13 +8,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm i
+RUN npm install --production
 
 # Copy the rest of the application code to the working directory
 COPY . .
 
 # Build the Next.js application
-RUN npm run build
+RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
 # Expose the port that the Next.js app runs on
 EXPOSE 3000
