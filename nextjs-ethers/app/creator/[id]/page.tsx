@@ -5,6 +5,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { DynamicWidget } from "../../../lib/dynamic";
+import {parseEther} from "viem";
+
 import { useDynamicContext, useIsLoggedIn } from '@dynamic-labs/sdk-react-core';
 
 const items = [
@@ -20,22 +22,35 @@ const creators = {
 export default function Main() {
   const isLoggedIn = useIsLoggedIn();
   const [creatorPoints, setCreatorPoints] = useState(0);
-  const [stakeAmount, setStakeAmount] = useState(1000);
-  const [balance, setBalance] = useState(0);
+  const [stakeAmount, setStakeAmount] = useState(0.0001);
   const [isMounted, setIsMounted] = useState(false);
 
   const { primaryWallet } = useDynamicContext();
 
-  const executeContract = async () => {
-    const signer = await primaryWallet?.connector.ethers?.getSigner()
-    console.log(signer)
-  }
+  const executeContract = async (amount) => {
+    try {
+      // const provider = newthers.providers.JsonRpcProvider('https://sepolia-rollup.arbitrum.io/rpc');
+      // console.log(provider)
 
-  useEffect(() => {
-    if(isLoggedIn) {
-      executeContract()
+      const signer = await primaryWallet?.connector.ethers?.getSigner()
+      console.log(signer)
+
+      // const connectedSigner = signer.connect(provider);
+      // console.log(connectedSigner)
+
+    const tx = await signer?.sendTransaction({
+      to: '0x8c0aB0427749F61E506DC9459259f40846d32A95',
+      value: parseEther(amount.toString()),
+      chainId: 421614,
+    });
+
+    setCreatorPoints(creatorPoints + Math.floor(10000 * amount));
+    console.log(tx)
     }
-  }, [isLoggedIn])
+    catch (error) {
+      console.error('Transaction failed', error);
+    } 
+  }
 
   useEffect(() => {
     setIsMounted(true);
@@ -45,15 +60,15 @@ export default function Main() {
   const creatorName = creators[id] || 'Unknown Artist';
 
   const handlePurchase = (item) => {
-    if (item.price <= creatorPoints) {
-      setCreatorPoints(creatorPoints - item.price);
-
+    if (item.price <= creatorPoints && isLoggedIn) {
       const url = 'https://api.telegram.org/bot7385275610:AAE8ROGu_QB4q23kATKlgkNxF3MXiJIz2J0/sendMessage';
       const data = {
         chat_id: "217941159",
         text: `The user Maksim Frolov purchased your item ${item.name}`,
         disable_notification: true
       };
+
+      setCreatorPoints(creatorPoints - item.price);
 
       fetch(url, {
         method: 'POST',
@@ -69,16 +84,18 @@ export default function Main() {
       .catch((error) => {
         console.error('Error:', error);
       });
+    } else {
+      console.error("trying to purchase when there are no enough money")
     }
 };
 
-
 const handleStake = () => {
-  const amount = parseInt(stakeAmount);
+  const amount = parseFloat(stakeAmount);
   if (!isNaN(amount) && amount > 0) {
-    setCreatorPoints(creatorPoints + amount);
+    executeContract(amount)
   }
 };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black flex flex-col items-center justify-center text-white">
@@ -94,19 +111,15 @@ const handleStake = () => {
 
         {isMounted && isLoggedIn && (
           <>
-          {/* User balance */}
-          <div className="text-xl font-bold mb-6">
-              Balance: {balance}
-            </div>
-            
             {/* Stake input and button */}
             <div className="flex flex-row items-center mb-6">
               <input
                 type="number"
+                step="0.0001"
                 value={stakeAmount}
                 onChange={(e) => setStakeAmount(e.target.value)}
                 className="bg-gray-800 text-white font-bold py-2 px-4 rounded mr-4"
-                min="1"
+                min="0.0001"
               />
               <button
                 onClick={handleStake}
